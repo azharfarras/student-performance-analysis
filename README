@@ -1,66 +1,58 @@
-
 # Student Performance Analysis: Statistical Testing and Regression in R
+
+An end-to-end statistical analysis project exploring factors associated with students' final mathematics grades using R.
 
 ## Project Overview
 
-This project analyzes student performance using R, with a focus on final mathematics grades. It demonstrates a structured statistical analysis workflow, from data quality assessment and exploratory data analysis to hypothesis testing, correlation analysis, multiple linear regression, and model diagnostics.
+This project analyzes student performance data to explore relationships between student characteristics, study habits, school-related factors, and final mathematics grades.
 
-The project aims to explore patterns in academic performance and investigate student characteristics associated with final grades.
+The analysis combines exploratory data analysis (EDA), hypothesis testing, correlation analysis, multiple linear regression, and model diagnostics to produce clear, evidence-based statistical insights.
 
 ## Objectives
 
-- Assess dataset structure and data quality.
-- Explore the distribution of final mathematics grades.
-- Examine grade differences across selected student groups.
-- Investigate the relationship between school absences and final grades.
-- Apply multiple linear regression to study associations between student characteristics and academic performance.
-- Review model fit and regression diagnostics.
+- Understand the structure and quality of the dataset.
+- Explore distributions and patterns in student mathematics grades.
+- Compare grades across selected student groups.
+- Examine the relationship between absences and final grades.
+- Build and evaluate a multiple linear regression model.
+- Communicate findings through visualizations and a Quarto report.
 
 ## Dataset
 
-**Source:** [UCI Student Performance Dataset](https://archive.ics.uci.edu/dataset/320/student+performance)
+- **Source:** [UCI Student Performance Dataset](https://archive.ics.uci.edu/dataset/320/student+performance)
+- **File:** `student-mat.csv`
+- **Observations:** 395 students
+- **Variables:** 33
+- **Target variable:** `G3` — final mathematics grade
 
-The mathematics dataset contains 395 student records and 33 variables.
+The original dataset uses a semicolon (`;`) as its field delimiter.
 
-The primary outcome variable is `G3`, representing the final mathematics grade.
+## Tools & Techniques
 
-Selected variables include:
-- `sex`: Student sex
-- `age`: Student age
-- `studytime`: Weekly study-time category
-- `failures`: Number of past class failures
-- `absences`: Number of school absences
-- `G3`: Final mathematics grade
+**Tools**
+- R
+- Tidyverse
+- Quarto
+- RStudio
 
-## Methods
-
-The project uses the following analytical methods:
-
-- **Data quality assessment:** Review of missing values, duplicates, variable types, and potential data-quality issues.
-- **Data cleaning:** Preparation of variables for analysis while preserving the original dataset.
-- **Exploratory data analysis (EDA):** Visualization of grade distributions and relationships between selected variables.
-- **Hypothesis testing:** Welch's t-test and the Kruskal–Wallis test to investigate group differences.
-- **Correlation analysis:** Spearman's rank correlation to examine the association between absences and final grades.
-- **Multiple linear regression:** Analysis of associations between selected student characteristics and final grades.
-- **Model diagnostics:** Review of regression assumptions and model performance.
+**Analytical techniques**
+- Data understanding and quality assessment
+- Data cleaning and exploratory data analysis
+- Welch's two-sample t-test
+- Kruskal–Wallis test
+- Spearman rank correlation
+- Multiple linear regression
+- Regression diagnostics
 
 ## Key Findings
 
-The baseline regression model explained approximately 17% of the variation in final mathematics grades.
+- The baseline regression model explains approximately **17.1% of the variation** in final mathematics grades (R² = 0.171).
+- Previous academic failures are negatively associated with final grades in the fitted model.
+- The male category has a positive estimated coefficient relative to the female reference category, holding the other included predictors constant.
+- Students reporting 5–10 hours of weekly study time have a positive estimated coefficient relative to the reference study-time category.
+- The model has limited explanatory power, indicating that other factors not included in the baseline model may also be important.
 
-In the baseline model, past class failures were negatively associated with final grades. The male category was positively associated with final grades relative to the reference category, and the study-time category of 5 to 10 hours per week had a positive coefficient relative to the reference category.
-
-These are statistical associations, not evidence of causal effects. The model does not explain all differences in student performance.
-
-## Tools
-
-- R
-- RStudio
-- tidyverse
-- ggplot2
-- Statistical hypothesis testing
-- Multiple linear regression
-- Quarto
+These findings describe statistical associations, not causal effects. Results should be interpreted in the context of the dataset and model assumptions.
 
 ## Project Structure
 
@@ -86,18 +78,33 @@ Student_Performance_Analysis/
 └── .gitignore
 ```
 
-## How to Run
+## How to Run the Project
 
-1. Install R and RStudio.
-2. Install the required R packages.
-3. Download the dataset from the UCI Machine Learning Repository and place the mathematics CSV file in `data/`.
-4. Run the scripts in numerical order.
-5. Render `statistical_analysis.qmd` using Quarto to generate the HTML report.
+1. Clone or download this repository.
+2. Open the project folder in RStudio.
+3. Install any required R packages that are not already available.
+4. Open `statistical_analysis.qmd` to review the report source.
+5. Render the report using Quarto:
+
+   ```bash
+   quarto render statistical_analysis.qmd
+   ```
+
+6. Run the R scripts in the `scripts/` folder to review the individual analysis stages.
+
+The dataset should be available at `data/student-mat.csv` for the report and scripts that use it.
 
 ## Limitations
 
-This analysis uses observational data from a specific educational context. The findings should not be interpreted as causal relationships or assumed to generalize to every student population.
+- The analysis uses observational data and cannot establish causation.
+- The baseline regression explains only a portion of the variation in final grades.
+- Regression estimates depend on the selected predictors and model assumptions.
+- Observations with a final grade of zero are retained as recorded in the source data rather than automatically treated as missing values.
 
 ## Author
 
-Azhar Farras
+**Azhar Farras**
+
+Data Analytics Portfolio Project
+
+Skills demonstrated: R programming, statistical analysis, hypothesis testing, regression modeling, data visualization, and analytical reporting.
