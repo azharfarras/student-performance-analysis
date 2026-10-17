@@ -58,15 +58,15 @@ These findings describe statistical associations, not causal effects. Results sh
 
 ### Distribution of Final Mathematics Grades
 
-![Distribution of Final Grades](outputs/figures/final_grade_distribution.png)
+![Distribution of Final Grades](https://raw.githubusercontent.com/azharfarras/student-performance-analysis/main/outputs/figures/final_grade_distribution.png)
 
 ### Study Time and Final Grades
 
-![Study Time and Final Grades](outputs/figures/03_grade_by_studytime.png)
+![Study Time and Final Grades](https://raw.githubusercontent.com/azharfarras/student-performance-analysis/main/outputs/figures/03_grade_by_studytime.png)
 
-### Regression Analysis
+### Regression Diagnostics
 
-![Regression Results](outputs/figures/model_diagnostics.png)
+![Regression Diagnostics](https://raw.githubusercontent.com/azharfarras/student-performance-analysis/main/outputs/figures/model_diagnostics.png)
 
 ## Project Structure
 
