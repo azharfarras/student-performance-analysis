@@ -54,6 +54,20 @@ The original dataset uses a semicolon (`;`) as its field delimiter.
 
 These findings describe statistical associations, not causal effects. Results should be interpreted in the context of the dataset and model assumptions.
 
+## Visual Insights
+
+### Distribution of Final Mathematics Grades
+
+![Distribution of Final Grades](outputs/figures/NAMA_FILE_GRAFIK.png)
+
+### Study Time and Final Grades
+
+![Study Time and Final Grades](outputs/figures/NAMA_FILE_GRAFIK.png)
+
+### Regression Analysis
+
+![Regression Results](outputs/figures/NAMA_FILE_GRAFIK.png)
+
 ## Project Structure
 
 ```text
