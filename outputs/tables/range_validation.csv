@@ -1,0 +1,7 @@
+variable,expected_range,violations
+G1,0 to 20,0
+G2,0 to 20,0
+G3,0 to 20,0
+studytime,1 to 4,0
+absences,Non-negative,0
+failures,Non-negative,0

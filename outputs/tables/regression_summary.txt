@@ -1,0 +1,26 @@
+
+Call:
+lm(formula = G3 ~ sex + age + studytime + failures + absences, 
+    data = students)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-12.4752  -1.8971   0.2221   2.8847   9.1515 
+
+Coefficients:
+                            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                 15.67887    2.90834   5.391 1.22e-07 ***
+sexMale                      1.42966    0.45607   3.135  0.00185 ** 
+age                         -0.35537    0.17511  -2.029  0.04310 *  
+studytime2 to 5 hours        0.11728    0.53226   0.220  0.82571    
+studytime5 to 10 hours       1.66273    0.71746   2.318  0.02100 *  
+studytimeMore than 10 hours  0.69722    0.93657   0.744  0.45706    
+failures                    -2.07145    0.29923  -6.923 1.85e-11 ***
+absences                     0.05343    0.02715   1.968  0.04973 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 4.21 on 387 degrees of freedom
+Multiple R-squared:  0.1706,	Adjusted R-squared:  0.1556 
+F-statistic: 11.37 on 7 and 387 DF,  p-value: 3.899e-13
+

@@ -1,0 +1,8 @@
+variable,valid_min,valid_max,values_checked,invalid_count
+age,15,22,395,0
+absences,0,Inf,395,0
+failures,0,3,395,0
+G1,0,20,395,0
+G2,0,20,395,0
+G3,0,20,395,0
+studytime,1,4,395,0

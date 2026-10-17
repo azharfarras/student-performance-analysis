@@ -1,0 +1,9 @@
+metric,value
+Original rows,395
+Original columns,33
+Prepared rows,395
+Prepared columns,35
+Missing values before cleaning,0
+Missing values after preparation,0
+Exact duplicate rows reviewed,0
+Rows removed automatically,0

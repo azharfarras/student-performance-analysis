@@ -1,0 +1,4 @@
+check,issue_count,status
+Missing values,0,No issue detected by this check
+Exact duplicate rows,0,No issue detected by this check
+Numeric range violations,0,No issue detected by this check

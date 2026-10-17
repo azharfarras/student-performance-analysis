@@ -1,0 +1,103 @@
+
+# Student Performance Analysis: Statistical Testing and Regression in R
+
+## Project Overview
+
+This project analyzes student performance using R, with a focus on final mathematics grades. It demonstrates a structured statistical analysis workflow, from data quality assessment and exploratory data analysis to hypothesis testing, correlation analysis, multiple linear regression, and model diagnostics.
+
+The project aims to explore patterns in academic performance and investigate student characteristics associated with final grades.
+
+## Objectives
+
+- Assess dataset structure and data quality.
+- Explore the distribution of final mathematics grades.
+- Examine grade differences across selected student groups.
+- Investigate the relationship between school absences and final grades.
+- Apply multiple linear regression to study associations between student characteristics and academic performance.
+- Review model fit and regression diagnostics.
+
+## Dataset
+
+**Source:** [UCI Student Performance Dataset](https://archive.ics.uci.edu/dataset/320/student+performance)
+
+The mathematics dataset contains 395 student records and 33 variables.
+
+The primary outcome variable is `G3`, representing the final mathematics grade.
+
+Selected variables include:
+- `sex`: Student sex
+- `age`: Student age
+- `studytime`: Weekly study-time category
+- `failures`: Number of past class failures
+- `absences`: Number of school absences
+- `G3`: Final mathematics grade
+
+## Methods
+
+The project uses the following analytical methods:
+
+- **Data quality assessment:** Review of missing values, duplicates, variable types, and potential data-quality issues.
+- **Data cleaning:** Preparation of variables for analysis while preserving the original dataset.
+- **Exploratory data analysis (EDA):** Visualization of grade distributions and relationships between selected variables.
+- **Hypothesis testing:** Welch's t-test and the Kruskal–Wallis test to investigate group differences.
+- **Correlation analysis:** Spearman's rank correlation to examine the association between absences and final grades.
+- **Multiple linear regression:** Analysis of associations between selected student characteristics and final grades.
+- **Model diagnostics:** Review of regression assumptions and model performance.
+
+## Key Findings
+
+The baseline regression model explained approximately 17% of the variation in final mathematics grades.
+
+In the baseline model, past class failures were negatively associated with final grades. The male category was positively associated with final grades relative to the reference category, and the study-time category of 5 to 10 hours per week had a positive coefficient relative to the reference category.
+
+These are statistical associations, not evidence of causal effects. The model does not explain all differences in student performance.
+
+## Tools
+
+- R
+- RStudio
+- tidyverse
+- ggplot2
+- Statistical hypothesis testing
+- Multiple linear regression
+- Quarto
+
+## Project Structure
+
+```text
+Student_Performance_Analysis/
+├── data/
+│   ├── student-mat.csv
+│   └── processed/
+├── scripts/
+│   ├── 01_data_understanding.R
+│   ├── 02_data_quality.R
+│   ├── 03_data_cleaning.R
+│   ├── 04_exploratory_data_analysis.R
+│   ├── 05_hypothesis_testing.R
+│   ├── 06_correlation_regression.R
+│   └── 07_model_diagnostics.R
+├── outputs/
+│   ├── figures/
+│   └── tables/
+├── statistical_analysis.qmd
+├── statistical_analysis.html
+├── README.md
+└── .gitignore
+```
+
+## How to Run
+
+1. Install R and RStudio.
+2. Install the required R packages.
+3. Download the dataset from the UCI Machine Learning Repository and place the mathematics CSV file in `data/`.
+4. Run the scripts in numerical order.
+5. Render `statistical_analysis.qmd` using Quarto to generate the HTML report.
+
+## Limitations
+
+This analysis uses observational data from a specific educational context. The findings should not be interpreted as causal relationships or assumed to generalize to every student population.
+
+## Author
+
+Azhar Farras

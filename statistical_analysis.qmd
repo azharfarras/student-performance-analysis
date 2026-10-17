@@ -1,0 +1,312 @@
+---
+title: "Student Performance Analysis"
+subtitle: "Statistical Analysis and Regression using R"
+author: "Azhar Farras"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    code-fold: true
+    embed-resources: true
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+library(knitr)
+
+students <- readr::read_delim(
+  "data/student-mat.csv",
+  delim = ";",
+  show_col_types = FALSE
+)
+
+# Standardize categorical variables for analysis
+students <- students |>
+  mutate(
+    sex = factor(sex),
+    studytime = factor(
+      studytime,
+      levels = 1:4,
+      labels = c(
+        "Less than 2 hours",
+        "2 to 5 hours",
+        "5 to 10 hours",
+        "More than 10 hours"
+      )
+    )
+  )
+
+# Locate existing image outputs
+figure_files <- list.files(
+  "outputs/figures",
+  pattern = "\\.(png|jpg|jpeg|svg)$",
+  full.names = TRUE,
+  ignore.case = TRUE
+)
+```
+
+# Excutive Summary
+
+This project explores student performance using R through data quality
+assessment, exploratory data analysis, statistical hypothesis testing,
+correlation analysis, multiple linear regression, and model diagnostics.
+
+The main outcome is the final mathematics grade (`G3`). The analysis
+examines differences in academic performance and investigates student
+characteristics associated with final grades.
+
+The findings are interpreted as statistical associations rather than
+causal effects.
+
+
+# Project Objectives
+The objectives are to:
+- Asses the structure and quality of the dataset.
+- Explore the distribution of final mathematics grades.
+- Investigate grades differences across selected student groups.
+- Examine the relationship between school absences and final grades.
+- Fit a multiple linear regression model.
+- Review model fit and regression diagnostics
+
+# Dataset Overview
+
+The dataset is obtained from the 
+[UCI Student Performance dataset] (https://archive.ics.uci.edu/dataset/320/student+performance).
+
+The mathematics dataset contains 395 student records and 33 variables.
+
+```{r}
+dataset_summary <- tibble(
+  Metric = c(
+    "Number of students",
+    "Number of variables",
+    "Missing values",
+    "Duplicate rows"
+  ),
+  value = c(
+    nrow(students),
+    ncol(students),
+    sum(is.na(students)),
+    sum(duplicated(students))
+  )
+)
+
+kable(dataset_summary, caption = "Dataset Overview")
+```
+
+## Key Variables
+
+| Variable    | Description                   |
+|-------------|-------------------------------|
+| `G3`        | Final mathematics grade       |
+| `sex`       | Student sex                   |
+| `age`       | Student age                   |
+| `studytime` | Weekly study-time category    |
+| `failures`  | Number of past class failures |
+| `absences`  | Number of school absences     |
+
+# Data Preparation and Quality
+
+The data preparation workflow involved reviewing variable types, checking missing values and duplicates, evaluating potential data-quality issues, and preparing variables for statistical analysis.
+
+The original dataset was preserved. Final grades equal to zero ware retained because the available data alone do not establish that these observations are invalid.
+
+# Exploratory Data Analysis
+
+Exploratory data analysis was used to understand the distribution of final grades and explore patterns involving student characteristics.
+
+## Distribution and Relationships
+
+The following figures were generated during the analysis workflow.
+
+```{r}
+#| label: display-analysis-figures
+#| results: asis
+#| echo: false
+
+if (length(figure_files) > 0) {
+  for (f in figure_files) {
+    figure_title <- tools::file_path_sans_ext(basename(f))
+    figure_title <- gsub("_", " ", figure_title)
+    figure_title <- stringr::str_to_title(figure_title)
+
+    cat("\n\n### ", figure_title, "\n\n", sep = "")
+    cat(
+      "![](",
+      normalizePath(f, winslash = "/", mustWork = TRUE),
+      "){fig-align='center' width=85%}",
+      "\n\n",
+      sep = ""
+    )
+  }
+} else {
+  cat("No figures were found in `outputs/figures/`.")
+}
+
+```
+
+## Summary Statistics
+
+```{r}
+grade_summary <- students |>
+  summarise(
+    Students = n(),
+    Mean = mean(G3, na.rm = TRUE),
+    Median = median(G3, na.rm = TRUE),
+    SD = sd(G3, na.rm = TRUE),
+    Minimum = min(G3, na.rm = TRUE),
+    Maximum = max(G3, na.rm = TRUE)
+  )
+
+kable(
+  grade_summary,
+  digits = 2,
+  caption = "Summary Statistics for Final Mathematics Grades"
+)
+```
+
+# Statistical Hypothesis Testing
+
+Three statictical methods were used to investigate the research questions.
+
+| Research question | Method |
+|---|---|
+| Do final grades differ by sex? | Welch's independent-samples t-test |
+| Do final grades differ across study-time categories? | Kruskal–Wallis test |
+| Is absence count associated with final grades? | Spearman's rank correlation |
+
+A 5% significance level was used as a reference for interpretating the results.
+
+```{r}
+test_sex <- t.test(G3 ~ sex, data = students)
+
+test_studytime <- kruskal.test(
+  G3 ~ studytime,
+  data = students
+)
+
+test_absences <- cor.test(
+  students$absences,
+  students$G3,
+  method = "spearman",
+  exact = FALSE
+)
+
+test_results <- tibble(
+  Research_Question = c(
+    "Final grades by sex",
+    "Final grades across study-time categories",
+    "Absences and final grades"
+  ),
+  Method = c(
+    "Welch t-test",
+    "Kruskal-Wallis test",
+    "Spearman correlation"
+  ),
+  Statistic = c(
+    unname(test_sex$statistic),
+    unname(test_studytime$statistic),
+    unname(test_absences$estimate)
+  ),
+  P_Value = c(
+    test_sex$p.value,
+    test_studytime$p.value,
+    test_absences$p.value
+  )
+)
+
+kable(
+  test_results,
+  digits = 4,
+  caption = "Hypothesis Testing Results"
+)
+```
+
+P-values should be interpreted alongside the effect size, the study context, and the assumptions of each method. Statisctial significance does not necessarily imply practical importance.
+
+# Correlation and Regression
+
+## Baseline Regression Model
+
+A multiple linear regression model was fitted to examine the association between final grades and selected student characteristics.
+
+The model includes sex, age, study time, past, failures, and absences.
+
+Earlier grades (`G1` and `G2`) were excluded from the baseline model because the analysis focuses on student characteristics rather than using previous grades as predictors.
+
+```{r}
+model_baseline <- lm(G3 ~ sex + age + studytime + failures + absences,
+                     data = students)
+
+model_summary <- summary(model_baseline)
+
+regression_metrics <- tibble(
+  Metric = c(
+    "Observations",
+    "R-squared",
+    "Adjusted R-Squared",
+    "Residual standar error"
+  ),
+  value = c(
+    nobs(model_baseline),
+    model_summary$r.squared,
+    model_summary$adj.r.squared,
+    model_summary$sigma
+  )
+)
+
+kable(
+  regression_metrics,
+  digits = 3,
+  caption = "Baseline Regression Model Performance"
+)
+```
+
+## Regression Coefficients
+
+```{r}
+coefficient_table <- as.data.frame(
+  coef(model_summary)
+) |> 
+  tibble::rownames_to_column("Predictor") |>
+  rename(
+    Estimate = Estimate,
+    Standard_Error = `Std. Error`,
+    T_Statistic = `t value`,
+    P_Value = `Pr(>|t|)`
+  )
+
+kable(
+  coefficient_table,
+  digits = 4,
+  caption = "Baseline Regression Coefficients"
+)
+```
+
+Each coefficient represents the estimated association with final grade, holding the other variables in the model constant. Categorical coefficients are interpreted relative to their reference categoris.
+
+# Model Diagnostics
+
+Regression diagnostics were included in the analysis workflow to review residual patterns and potential issues involving model assumptions.
+
+The diagnostic plots and test outputs should be considered togetger. Teh model is an approximation of student performance, and the results may be affected by unmeasured factors and limitations in the dataset.
+
+# Limitations 
+- The analysis uses observational data and does not establish causality. 
+- The dataset represent a specific educational context.
+- The baseline model explains only part of the variation in final grades.
+- Findings depend on the available variables and model assumptions.
+- Statistical significance should not be interpreted as proof of practical importance.
+
+#   Conclusion 
+This project demonstrates a structured statistical analysis workflow using R, from data preparation and visualization to hypothesis testing, regression modelling, and diagnostic review.
+
+The results provide insight into associations between student characteristics and final mathematics grades while acknowledging the limitations of observational analysis.

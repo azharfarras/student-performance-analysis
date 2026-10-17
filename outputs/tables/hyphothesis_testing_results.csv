@@ -1,0 +1,4 @@
+analysis,method,statistic,p_value,conclusion
+Final Grade by Sex,Welh's t-test,-2.0650572003629564,0.03957700303089976,Statistically significant
+Final Grade by Study Time,Kruskal-Wallis test,7.578856181382072,0.05556654443436001,Not statistically significant
+Absences vs Final Grade,Spearman correlation,10089458.01365548,0.7253626110680617,Not statistically significant

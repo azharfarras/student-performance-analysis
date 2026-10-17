@@ -1,0 +1,10 @@
+metric,value
+Number of students,395
+Number of variables,35
+Mean final grade,10.415189873417722
+Median final grade,11
+Standard deviation of final grade,4.5814426109978434
+Mean absences,5.708860759493671
+Median absences,4
+Pearson correlation: absences vs G3,0.03424731615006933
+Spearman correlation: absences vs G3,0.01773066912242511
